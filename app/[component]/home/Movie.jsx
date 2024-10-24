@@ -35,10 +35,10 @@ const Movie = () => {
     useEffect(() => {
         if (data) {
             if (page === 1) {
-                // Reset the movie list if it's a new search
+               
                 setAllMovies(data);
             } else {
-                // Append new movies to the existing list
+              
                 setAllMovies((prevMovies) => [...prevMovies, ...data]);
             }
         }
