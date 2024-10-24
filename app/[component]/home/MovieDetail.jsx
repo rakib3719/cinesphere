@@ -1,14 +1,16 @@
 import Image from "next/image";
+import Link from "next/link"; // Import Link for the button
+import MovieSummery from "./MovieSummery";
 
 const MovieDetail = ({ data }) => {
     console.log(data, 'data');
-    console.log(   data?.genres, 'genres');
+    console.log(data?.genres, 'genres');
     // Background image URL
     const bgUrl = `url(http://image.tmdb.org/t/p/w500/${data?.backdrop_path})`;
 
     return (
         <div
-            className="hero  min-h-screen"
+            className="hero bg-fixed min-h-screen"
             style={{
                 backgroundImage: bgUrl,
                 backgroundSize: 'cover',
@@ -32,26 +34,35 @@ const MovieDetail = ({ data }) => {
                         <h1 className="bold text-2xl">{data?.original_title}</h1>
                         <p className="text-gray-400">{data?.overview}</p>
 
-<div className="flex gap-4">
+                        <div className="flex gap-4">
+                            <p>{data?.release_date}</p>
+                            <p className="uppercase text-gray-400">{data?.original_language}</p>
+                        </div>
 
-    <p>{data?.release_date}</p>
-    <p className="uppercase text-gray-400">{data?.original_language}</p>
-</div>
+                        <div className="flex gap-4">
+                            {data?.genres?.map((d) => (
+                                <p key={d?.id} className="border-r pr-4">
+                                    {d?.name}
+                                </p>
+                            ))}
+                        </div>
 
-<div className="flex gap-4">
-{
-    data?.genres?.map((d)=>
-    
-    <p key={d?.id}   className="border-r pr-4">
-{d?.name}
-
-    </p>)
-}
-
-</div>
-
+                        {/* Button to download or visit homepage */}
+                        {data?.homepage && (
+                            <div className="mt-4">
+                                <Link href={data?.homepage} passHref target="blank">
+                                    <p target="_blank">
+                                        <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-full">
+                                            Download
+                                        </button>
+                                    </p>
+                                </Link>
+                            </div>
+                        )}
                     </section>
                 </div>
+
+                <MovieSummery data={data} />
             </div>
         </div>
     );

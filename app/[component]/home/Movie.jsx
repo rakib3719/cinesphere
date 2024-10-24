@@ -59,7 +59,7 @@ const Movie = () => {
                 window.innerHeight + document.documentElement.scrollTop >=
                 document.documentElement.offsetHeight - 50 && !isFetching && hasMore
             ) {
-                setPage((prev) => prev + 1); // Increment page to load more results
+                setPage((prev) => prev + 1); 
             }
         };
 
@@ -70,7 +70,7 @@ const Movie = () => {
     return (
         <div>
             {/* Search Bar */}
-            <div className="max-w-lg mx-auto mt-8">
+            <div className="max-w-lg mx-auto pt-8">
                 <form onSubmit={handleSearchSubmit} className="flex items-center space-x-4">
                     <input
                         type="text"
