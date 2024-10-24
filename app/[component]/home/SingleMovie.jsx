@@ -1,5 +1,6 @@
 
 
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -9,11 +10,13 @@ const SingleMovie = ({ movie }) => {
     <Link href={`/movie/${movie?.id}`} className="bg-gray-800 text-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative group">
         <div className="overflow-hidden">
-          <img
+          <Image
             className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
             src={`http://image.tmdb.org/t/p/w500/${movie?.poster_path}`}
             alt={movie.original_title}
             loading="lazy"
+            width={100}
+            height={100}
           />
         </div>
         <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
