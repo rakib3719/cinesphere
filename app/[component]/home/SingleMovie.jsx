@@ -17,6 +17,7 @@ const SingleMovie = ({ movie }) => {
             loading="lazy"
             width={100}
             height={100}
+           
           />
         </div>
         <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">

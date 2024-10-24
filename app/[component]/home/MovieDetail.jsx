@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link"; // Import Link for the button
 import MovieSummery from "./MovieSummery";
 
-const MovieDetail = ({ data, cast }) => {
+const MovieDetail = ({ data, cast, recomendedMovie }) => {
     console.log(data, 'data');
     console.log(data?.genres, 'genres');
     // Background image URL
@@ -18,7 +18,7 @@ const MovieDetail = ({ data, cast }) => {
             }}>
 
 
-            <div className="hero-overlay bg-black bg-opacity-80"></div> {/* Changed to black */}
+            <div className="hero-overlay bg-black bg-opacity-80"></div> 
             <div className="grid md:grid-cols-12">
             <div className="col-span-9">
                 <div className="md:flex gap-12  md:py-8 sm:px-8 md:px-16">
@@ -34,7 +34,7 @@ const MovieDetail = ({ data, cast }) => {
                     </section>
 
                     <section className="text-white mt-8 md:mt-0 px-4 md:px-0 space-y-3">
-                        <h1 className="bold text-2xl">{data?.original_title}</h1>
+                        <h1 className="bold text-2xl">{data?.title}</h1>
                         <p className="text-gray-400">{data?.overview}</p>
 
                         <div className="flex gap-4">
@@ -69,6 +69,36 @@ const MovieDetail = ({ data, cast }) => {
             </div>
 
             <div className="col-span-3 border-l border-gray-500">
+
+<div>
+    <h1 className="font-bold text-xl ml-3 mt-4 text-white">Recomended Movie</h1>
+
+    {
+        recomendedMovie?.results.map((data,idx)=>
+        
+        <Link href={`/movie/${data?.id}`} key={idx} className="ml-6 flex gap-4 mt-6 items-center bg-black b">
+
+            <div className="">
+
+            <Image
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
+            src={`http://image.tmdb.org/t/p/w500/${data?.poster_path}`}
+            alt={data?.title}
+            loading="lazy"
+            width={60}
+            height={60}
+           
+          />
+            </div>
+            <div className="py-2  bg-black">
+
+
+                <h1 className="text-white text-lg font-bold mt-4">{data?.title}</h1>
+                <p className="text-gray-400">{data?.release_date}</p>
+            </div>
+        </Link>)
+    }
+</div>
 
             </div>
             </div>
