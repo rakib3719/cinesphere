@@ -14,10 +14,17 @@ const Movie = () => {
     const [isFetching, setIsFetching] = useState(false);
 
     const { data } = useQuery({
-        queryKey: ['allMovies', page],
+        queryKey: ['allMovies', page, searchQuery],
         queryFn: async () => {
             setIsFetching(true);
-            const resp = await axioPubic.get(`/movie/popular?api_key=2e1d3b6df4093e0ab45c415840084911&page=${page}`);
+
+            let resp;
+            if (searchQuery) {
+                resp = await axioPubic.get(`/search/movie?query=${searchQuery}&api_key=2e1d3b6df4093e0ab45c415840084911&page=${page}`);
+            } else {
+                resp = await axioPubic.get(`/movie/popular?api_key=2e1d3b6df4093e0ab45c415840084911&page=${page}`);
+            }
+
             setIsFetching(false);
             setHasMore(resp.data.results.length > 0);
             return resp.data.results;
@@ -27,7 +34,13 @@ const Movie = () => {
 
     useEffect(() => {
         if (data) {
-            setAllMovies((prevMovies) => [...prevMovies, ...data]);
+            if (page === 1) {
+                // Reset the movie list if it's a new search
+                setAllMovies(data);
+            } else {
+                // Append new movies to the existing list
+                setAllMovies((prevMovies) => [...prevMovies, ...data]);
+            }
         }
     }, [data]);
 
@@ -35,13 +48,18 @@ const Movie = () => {
         e.preventDefault();
         const searchValue = e.target.search.value;
         setSearchQuery(searchValue);
+        setPage(1); // Reset page to 1 on new search
+        setAllMovies([]); // Clear previous results
         console.log("Search Query:", searchValue);
     };
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 50 && !isFetching) {
-                if (hasMore) setPage((prev) => prev + 1);
+            if (
+                window.innerHeight + document.documentElement.scrollTop >=
+                document.documentElement.offsetHeight - 50 && !isFetching && hasMore
+            ) {
+                setPage((prev) => prev + 1); // Increment page to load more results
             }
         };
 
