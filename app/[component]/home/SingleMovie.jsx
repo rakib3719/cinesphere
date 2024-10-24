@@ -1,8 +1,12 @@
+
+
+import Link from 'next/link';
 import React from 'react';
 
 const SingleMovie = ({ movie }) => {
+ 
   return (
-    <div className="bg-gray-800 text-white rounded-lg overflow-hidden shadow-lg">
+    <Link href={`/movie/${movie?.id}`} className="bg-gray-800 text-white rounded-lg overflow-hidden shadow-lg">
       <div className="relative group">
         <div className="overflow-hidden">
           <img
@@ -31,7 +35,7 @@ const SingleMovie = ({ movie }) => {
           <p>Popularity: {movie.popularity}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
