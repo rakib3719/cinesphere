@@ -5,51 +5,30 @@ import { BsExclamationCircle } from "react-icons/bs";
 import { useState } from "react";
 import 'react-tabs/style/react-tabs.css';
 
-const MovieSummery = ({data}) => {
+const MovieSummery = ({data, cast}) => {
     const [showReport, setShowReport] = useState(false); 
     const handleReportClick = () => {
         setShowReport(!showReport);
     };
-    const product = {
-        _id: "afs452g2df2dgfd2dg",
-        image: "https://example.com/product-cover.jpg", 
-        productName: "The Great Adventure",
-        author: "John Doe",
-        publication: "Adventure Publishing",
-        category: "Fiction",
-        price: 599,
-        discount: 10, // in percentage
-        stockStatus: "In Stock",
-        productLength: 350, // in pages
-        isbn: "978-3-16-148410-0",
-        edition: 2024,
-        country: "Bangladesh",
-        language: "English",
-        available: 16,
-        summary:
-          "An epic tale of courage, discovery, and survival as a group of explorers embark on a journey to unknown lands, overcoming extraordinary challenges.",
-        authorDetails:
-          "John Doe is a renowned author and explorer, having traveled to over 50 countries and written multiple bestsellers. His works often explore the boundaries of human experience, blending adventure with philosophical insights.",
-        promoCode: true,
-        authorPhoto: "https://example.com/product-cover.jpg",
-        authorFollower: 34,
-        myRetting: 2,
-        avgRating: 3,
-    };
+
+
+   
     
     return (
         <div className=" text-white px-4 pt-4 pb-12 mt-12">
             <h1 className="text-2xl">Movie Specification & Summary</h1>
 
             <Tabs>
-                <TabList className="flex space-x-4 mt-8">
+                <TabList className="flex space-x-4 mt-12">
                     <Tab className="py-2 px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
                         Summary
                     </Tab>
                     <Tab className="py-2 px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
                         Specification
                     </Tab>
-                    
+                    <Tab className="py-2 px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
+                        Cast
+                    </Tab>
                 </TabList>
 
                 {/* Summary Tab */}
@@ -113,12 +92,46 @@ const MovieSummery = ({data}) => {
                                         }
                                         </td>
                                     </tr>
+                                    <tr >
+                                        <td className="p-2  border-r bg-gray-900  w-1/3">
+                                       Released Date
+                                        </td>
+                                        <td className="p-2 bg-gray-900  w-2/3">
+                                        {data?.release_date
+                                        }
+                                        </td>
+                                    </tr>
                             </tbody>
                         </table>
                     </div>
                 </TabPanel>
 
-              
+              {/* cast */}
+
+
+            
+                <TabPanel>
+                <div className="grid grid-cols-3 mt-12 gap-8">
+
+{
+    cast?.cast.map((cast,idx) => 
+    
+    
+    <div key={idx} className="flex items-center gap-5">
+
+<div className="">
+
+    <Image width={50} height={50} alt={cast?.name} src={`http://image.tmdb.org/t/p/w500/${cast?.profile_path}`}/>
+</div>
+
+<div className="space-y-1">
+<p>{cast?.name}</p>
+<p className="text-sm text-gray-400">{cast?.character}</p>
+</div>
+    </div>)
+}
+</div>
+                </TabPanel>
             </Tabs>
 
             <h1

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link"; // Import Link for the button
 import MovieSummery from "./MovieSummery";
 
-const MovieDetail = ({ data }) => {
+const MovieDetail = ({ data, cast }) => {
     console.log(data, 'data');
     console.log(data?.genres, 'genres');
     // Background image URL
@@ -10,14 +10,17 @@ const MovieDetail = ({ data }) => {
 
     return (
         <div
-            className="hero bg-fixed min-h-screen"
+            className="hero bg-fixed min-h-screen "
             style={{
                 backgroundImage: bgUrl,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
             }}>
+
+
             <div className="hero-overlay bg-black bg-opacity-80"></div> {/* Changed to black */}
-            <div className="">
+            <div className="grid md:grid-cols-12">
+            <div className="col-span-9">
                 <div className="md:flex gap-12  md:py-8 sm:px-8 md:px-16">
                     <section>
                         <Image
@@ -62,7 +65,12 @@ const MovieDetail = ({ data }) => {
                     </section>
                 </div>
 
-                <MovieSummery data={data} />
+                <MovieSummery data={data} cast={cast} />
+            </div>
+
+            <div className="col-span-3 border-l border-gray-500">
+
+            </div>
             </div>
         </div>
     );
