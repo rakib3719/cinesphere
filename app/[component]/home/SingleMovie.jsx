@@ -21,21 +21,21 @@ const SingleMovie = ({ movie }) => {
           />
         </div>
         <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4">
-          <h2 className="text-2xl font-semibold">{movie.title}</h2>
+          <h2 className="sm:text-2xl  font-semibold">{movie.title}</h2>
           <p className="text-sm opacity-75">{movie.release_date}</p>
         </div>
       </div>
       <div className="p-4">
-        <h3 className="text-xl font-semibold mb-2">{movie.original_title}</h3>
+        <h3 className="md:text-xl font-semibold mb-2">{movie.original_title}</h3>
      
-        <div className="flex items-center justify-between">
+        <div className="md:flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <span className="text-yellow-400 font-bold">{movie.vote_average}</span>
+            <span className="text-yellow-400 font-bold">{movie?.vote_average.toFixed(2)}</span>
             <span className="text-sm opacity-75">/ 10</span>
           </div>
           <p className="text-sm opacity-75">Votes: {movie.vote_count}</p>
         </div>
-        <div className="mt-4 flex items-center justify-between text-sm">
+        <div className="md:mt-4 mt-1 flex items-center justify-between text-sm">
           <p>Popularity: {movie.popularity}</p>
         </div>
       </div>

@@ -6,20 +6,25 @@ import { useQuery } from "@tanstack/react-query";
 import { useForm } from 'react-hook-form';
 import MovieList from "./MovieList";
 import Link from 'next/link';
-import { FaBookmark } from 'react-icons/fa'; // Import the icon you want to use
-import { z } from 'zod'; // Import Zod for validation
-import { zodResolver } from '@hookform/resolvers/zod'; // Zod resolver for React Hook Form
+import { FaBookmark } from 'react-icons/fa';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Swal from 'sweetalert2'; // Import SweetAlert2
 
 const movieSchema = z.object({
-    id:z.number(),
+    id: z.number(),
     title: z.string(),
+    vote_average: z.number(),
+    popularity: z.number(),
+    vote_count: z.number(),
+    release_date: z.string(),
     original_title: z.string(),
     overview: z.string(),
-    poster_path: z.string().nullable(), 
+    poster_path: z.string().nullable(),
     genres: z.array(z.object({
         id: z.number(),
         name: z.string(),
-    })).optional(), 
+    })).optional(),
 });
 
 const Movie = () => {
@@ -30,7 +35,6 @@ const Movie = () => {
     const [isFetching, setIsFetching] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
 
-    // React Hook Form setup with Zod validation
     const { register, handleSubmit, formState: { errors } } = useForm({
         defaultValues: { search: '' },
         resolver: zodResolver(z.object({
@@ -53,14 +57,19 @@ const Movie = () => {
             setIsFetching(false);
             setHasMore(resp.data.results.length > 0);
 
-            // Validate the response data using Zod
             const validatedMovies = resp.data.results.map(movie => {
                 const result = movieSchema.safeParse(movie);
                 if (!result.success) {
-                    throw new Error("Validation Error: " + JSON.stringify(result.error.issues));
+                    // Show SweetAlert instead of setting a validation error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Validation Error',
+                        text: "Invalid movie data received. Please check the logs.",
+                    });
+                    return null; 
                 }
                 return result.data;
-            });
+            }).filter(movie => movie !== null); 
 
             return validatedMovies;
         },
