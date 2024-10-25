@@ -15,7 +15,7 @@ const MovieSummery = ({data, cast}) => {
    
     
     return (
-        <div className=" text-white px-4 pt-4 pb-12 mt-12">
+        <div className=" text-white px-2 md:px-4 pt-4 pb-12 mt-12">
             <h1 className="text-2xl">Movie Specification & Summary</h1>
 
             <Tabs>
@@ -23,25 +23,25 @@ const MovieSummery = ({data, cast}) => {
                     <Tab className="py-2 px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
                         Summary
                     </Tab>
-                    <Tab className="py-2 px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
+                    <Tab className="py-2 md:px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
                         Specification
                     </Tab>
-                    <Tab className="py-2 px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
+                    <Tab className="py-2 md:px-4 cursor-pointer text-white hover:bg-yellow-500 hover:text-gray-900 transition-all duration-300">
                         Cast
                     </Tab>
                 </TabList>
 
-                {/* Summary Tab */}
+               
                 <TabPanel>
-                    <h2 className="px-8 py-4">{data?.overview}</h2>
+                    <h2 className="px-4 md:px-8 py-4">{data?.overview}</h2>
                 </TabPanel>
 
-                {/* Specification Tab */}
+               
                 <TabPanel>
-                    <div className="px-8 py-4">
+                    <div className="px:2 md:px-8 py-4">
                         <table className="w-full table-auto border-collapse border border-gray-300">
                             <tbody>
-                                {/* Table rows */}
+                             
                                 
                                     <tr >
                                         <td className="p-2 bg-gray-900 border-r  w-1/3">
@@ -61,10 +61,10 @@ const MovieSummery = ({data, cast}) => {
                                     </tr>
                                     <tr >
                                         <td className="p-2 bg-gray-900 border-r  w-1/3">
-                                        Status
+                                        Language
                                         </td>
                                         <td className="p-2  bg-gray-900 w-2/3">
-                                           {data?.status}
+                                           {data?.original_language}
                                         </td>
                                     </tr>
                                     <tr >
@@ -106,12 +106,12 @@ const MovieSummery = ({data, cast}) => {
                     </div>
                 </TabPanel>
 
-              {/* cast */}
+            
 
 
             
                 <TabPanel>
-                <div className="grid grid-cols-3 mt-12 gap-8">
+                <div className="grid px-2 md:px-6 grid-cols-2 md:grid-cols-3 mt-12 gap-8">
 
 {
     cast?.cast.map((cast,idx) => 
