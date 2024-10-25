@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import Image from 'next/image';
+import Link from 'next/link';
 
 const fetchMovieDetails = async (movieId) => {
   const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=2e1d3b6df4093e0ab45c415840084911`);
@@ -62,7 +64,7 @@ const WatchlistMovie = ({ movieId, onRemove }) => {
   const handleRemove = async () => {
     try {
       await axios.delete('/api/watchlist', { data: { movieId } });
-      onRemove(movieId); // Call the onRemove function passed from the parent component
+      onRemove(movieId); 
     } catch (error) {
       console.error("Error removing movie from watchlist:", error);
     }
@@ -71,11 +73,12 @@ const WatchlistMovie = ({ movieId, onRemove }) => {
   if (isLoading) return <p className="text-yellow-500 text-center">Loading movie details...</p>;
 
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg transform transition hover:scale-105 hover:shadow-xl">
-      <img
+    <Link href={`/movie/${movie?.id}`} className="bg-gray-800 rounded-lg shadow-md  transform transition">
+      <Image
         src={`http://image.tmdb.org/t/p/w500${movie?.poster_path}`}
         alt={movie?.title}
-        className="rounded-t-lg object-cover h-72 w-full"
+        width={100}
+        height={100}        className="rounded-t-lg h-72 object-cover  w-full"
       />
       <div className="p-4">
         <h2 className="text-xl font-semibold text-white">{movie?.title}</h2>
@@ -87,7 +90,7 @@ const WatchlistMovie = ({ movieId, onRemove }) => {
           Remove from Watchlist
         </button>
       </div>
-    </div>
+    </Link>
   );
 };
 

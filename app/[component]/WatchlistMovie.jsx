@@ -1,3 +1,6 @@
+const { default: Image } = require("next/image");
+const { default: Link } = require("next/link");
+
 const WatchlistMovie = ({ movieId }) => {
     const { data: movie, isLoading } = useQuery({
       queryKey: ['movie', movieId],
@@ -7,8 +10,8 @@ const WatchlistMovie = ({ movieId }) => {
     if (isLoading) return <p className="text-yellow-500 text-center">Loading movie details...</p>;
   
     return (
-      <div className="bg-gray-800 rounded-lg shadow-lg transform transition hover:scale-105 hover:shadow-xl">
-        <img
+      <Link href={`/movie/${movie?.id}`} className="bg-gray-800 rounded-lg shadow-lg ">
+        <Image
           src={`http://image.tmdb.org/t/p/w500${movie?.poster_path}`}
           alt={movie?.title}
           className="rounded-t-lg object-cover h-72 w-full"
@@ -20,6 +23,6 @@ const WatchlistMovie = ({ movieId }) => {
             Remove from Watchlist
           </button>
         </div>
-      </div>
+      </Link>
     );
   };
