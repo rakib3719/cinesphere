@@ -28,14 +28,14 @@ const SingleMovie = ({ movie }) => {
       <div className="p-4">
         <h3 className="md:text-xl font-semibold mb-2">{movie.original_title}</h3>
      
-        <div className="md:flex items-center justify-between">
+        <div className=" items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-yellow-400 font-bold">{movie?.vote_average.toFixed(2)}</span>
             <span className="text-sm opacity-75">/ 10</span>
           </div>
           <p className="text-sm opacity-75">Votes: {movie.vote_count}</p>
         </div>
-        <div className="md:mt-4 mt-1 flex items-center justify-between text-sm">
+        <div className=" mt-1 flex items-center justify-between text-sm">
           <p>Popularity: {movie.popularity}</p>
         </div>
       </div>
