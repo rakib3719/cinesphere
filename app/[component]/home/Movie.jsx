@@ -1,42 +1,32 @@
-'use client'
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import usePublicAxios from "@/app/[hooks]/usePublicAxios";
 import { useQuery } from "@tanstack/react-query";
+import { useForm } from 'react-hook-form';
 import MovieList from "./MovieList";
 import Link from 'next/link';
+import { FaBookmark } from 'react-icons/fa'; // Import the icon you want to use
 
 const Movie = () => {
     const axioPubic = usePublicAxios();
-    const [searchQuery, setSearchQuery] = useState('');
     const [page, setPage] = useState(1);
     const [allMovies, setAllMovies] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const [isFetching, setIsFetching] = useState(false);
-    const [theme, setTheme] = useState('dark'); 
+    const [searchQuery, setSearchQuery] = useState('');
 
-  
-    useEffect(() => {
-        const storedTheme = localStorage.getItem('theme') || 'dark';
-        setTheme(storedTheme);
-        document.documentElement.classList.add(storedTheme + '-mode');
-    }, []);
+    // React Hook Form setup
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        defaultValues: { search: '' },
+    });
 
-
-    const toggleTheme = () => {
-        const newTheme = theme === 'dark' ? 'light' : 'dark';
-        document.documentElement.classList.replace(`${theme}-mode`, `${newTheme}-mode`);
-        setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-    };
-
-    // Fetch movies using react-query
     const { data } = useQuery({
         queryKey: ['allMovies', page, searchQuery],
         queryFn: async () => {
             setIsFetching(true);
-
             let resp;
+
             if (searchQuery) {
                 resp = await axioPubic.get(`/search/movie?query=${searchQuery}&api_key=2e1d3b6df4093e0ab45c415840084911&page=${page}`);
             } else {
@@ -60,13 +50,11 @@ const Movie = () => {
         }
     }, [data]);
 
-    const handleSearchSubmit = (e) => {
-        e.preventDefault();
-        const searchValue = e.target.search.value;
-        setSearchQuery(searchValue);
-        setPage(1);
-        setAllMovies([]);
-        console.log("Search Query:", searchValue);
+    const onSubmit = (data) => {
+        setSearchQuery(data.search); 
+        setPage(1); 
+        setAllMovies([]); 
+        console.log("Search Query:", data.search);
     };
 
     useEffect(() => {
@@ -84,36 +72,38 @@ const Movie = () => {
     }, [isFetching, hasMore]);
 
     return (
-        <div className="min-h-screen">
-            <div className="max-w-lg mx-auto pt-8 flex items-center justify-between">
-              
-             
-
-              
-                <form onSubmit={handleSearchSubmit} className="flex items-center space-x-4">
+        <div>
+            <div className="max-w-lg mx-auto pt-8 flex  items-center justify-between px-3">
+                <form onSubmit={handleSubmit(onSubmit)} className="flex items-center relative w-full mb-4 md:mb-0">
                     <input
                         type="text"
-                        name="search"
+                        {...register('search', { 
+                            required: 'This field is required', 
+                            minLength: { value: 3, message: 'Enter at least 3 characters' } 
+                        })}
                         placeholder="Search for movies..."
-                        className="w-full p-3  bg-gray-800 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        className={`w-full p-3 pr-16 bg-gray-800 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500 ${errors.search ? 'border-red-500' : ''}`}
                     />
                     <button
                         type="submit"
-                        className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300"
+                        className="absolute right-0 top-0 bottom-0 bg-yellow-500 hover:bg-yellow-600 text-white font-bold  px-6 rounded-r-lg shadow-md transition duration-300"
                     >
                         Search
                     </button>
                 </form>
 
-                {/* Watchlist Button */}
                 <Link href={'/watchlist'}
-                    className="ml-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300"
+                    className="ml-4 flex items-center bg-gray-700 hover:bg-gray-800 text-white font-bold py-4 rounded-lg mb-4 md:mb-0 mb:py-3 shadow-md transition duration-300 px-4"
                 >
-                    Watchlist
+                    <FaBookmark className="mr-2" /> {/* Keep the icon visible */}
+                    <span className="hidden md:inline">Watchlist</span> {/* Hide text on mobile */}
                 </Link>
             </div>
 
-            {/* Movie List */}
+            <p className="text-red-500 min-h-8 md:mr-[360px] text-sm md:text-center mt-4">
+                {errors.search && errors.search.message}
+            </p>
+
             <MovieList data={allMovies} />
             {isFetching && <p className="text-center text-yellow-500">Loading more movies...</p>}
         </div>

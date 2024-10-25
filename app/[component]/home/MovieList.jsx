@@ -10,7 +10,7 @@ const MovieList = ({data}) => {
   return (
     <div className="min-h-screen bg-gray-900 text-white px-8">
       <header className="py-8 text-center">
-        <h1 className="text-5xl font-bold text-yellow-500">Movie Download Hub</h1>
+        <h1 className="text-5xl font-bold text-yellow-500">Sinisphere Movie</h1>
         <p className="text-gray-400 mt-4">Download the latest and greatest movies now!</p>
       </header>
 

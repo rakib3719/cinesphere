@@ -133,7 +133,7 @@ const MovieDetail = ({ data, cast, recomendedMovie }) => {
           <div>
             <h1 className="font-bold text-xl ml-3 mt-4 text-white">Recommended Movies</h1>
             {recomendedMovie?.results.map((data, idx) => (
-              <Link href={`/movies/${data?.id}`} key={idx} className="ml-6 flex gap-4 mt-6 items-center bg-black">
+              <Link href={`/movie/${data?.id}`} key={idx} className="ml-6 flex gap-4 mt-6 items-center bg-black">
                 <div className="">
                   <Image
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
