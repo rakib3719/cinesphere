@@ -47,7 +47,7 @@ const MovieDetail = ({ data, cast, recomendedMovie }) => {
         backgroundPosition: 'center',
       }}>
       <div className="hero-overlay bg-black bg-opacity-80"></div> 
-      <div className="grid md:grid-cols-12">
+      <div className="md:grid md:grid-cols-12">
         <div className="col-span-9">
           <div className="md:flex gap-12 md:py-8 sm:px-8 md:px-16">
             <section>
@@ -78,7 +78,7 @@ const MovieDetail = ({ data, cast, recomendedMovie }) => {
                 ))}
               </div>
 
-              {/* Watchlist Button */}
+            
               <div className="flex items-center gap-2 mt-4">
                 <button
                   onClick={toggleFavorite}
@@ -113,7 +113,7 @@ const MovieDetail = ({ data, cast, recomendedMovie }) => {
                 </button>
               </div>
 
-              {/* Button to download or visit homepage */}
+            
               {data?.homepage && (
                 <div className="mt-4">
                   <Link href={data?.homepage} passHref target="_blank">
@@ -129,14 +129,15 @@ const MovieDetail = ({ data, cast, recomendedMovie }) => {
           <MovieSummery data={data} cast={cast} />
         </div>
 
-        <div className="col-span-3 border-l border-gray-500">
+        <div className="md:col-span-3 px-5 border-l border-gray-500">
           <div>
             <h1 className="font-bold text-xl ml-3 mt-4 text-white">Recommended Movies</h1>
-            {recomendedMovie?.results.map((data, idx) => (
-              <Link href={`/movie/${data?.id}`} key={idx} className="ml-6 flex gap-4 mt-6 items-center bg-black">
+        <div className="max-h-screen overflow-y-scroll">
+        {recomendedMovie?.results.map((data, idx) => (
+              <Link href={`/movie/${data?.id}`} key={idx} className="md:ml-6  flex gap-4 mt-6 items-center bg-black">
                 <div className="">
                   <Image
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform h-full duration-500"
                     src={`http://image.tmdb.org/t/p/w500/${data?.poster_path}`}
                     alt={data?.title}
                     loading="lazy"
@@ -150,6 +151,7 @@ const MovieDetail = ({ data, cast, recomendedMovie }) => {
                 </div>
               </Link>
             ))}
+        </div>
           </div>
         </div>
       </div>
