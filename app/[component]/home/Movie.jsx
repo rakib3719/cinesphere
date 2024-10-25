@@ -6,7 +6,6 @@ import { useQuery } from "@tanstack/react-query";
 import MovieList from "./MovieList";
 import Link from 'next/link';
 
-
 const Movie = () => {
     const axioPubic = usePublicAxios();
     const [searchQuery, setSearchQuery] = useState('');
@@ -14,9 +13,24 @@ const Movie = () => {
     const [allMovies, setAllMovies] = useState([]);
     const [hasMore, setHasMore] = useState(true);
     const [isFetching, setIsFetching] = useState(false);
- 
+    const [theme, setTheme] = useState('dark'); 
+
+  
+    useEffect(() => {
+        const storedTheme = localStorage.getItem('theme') || 'dark';
+        setTheme(storedTheme);
+        document.documentElement.classList.add(storedTheme + '-mode');
+    }, []);
 
 
+    const toggleTheme = () => {
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.classList.replace(`${theme}-mode`, `${newTheme}-mode`);
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    };
+
+    // Fetch movies using react-query
     const { data } = useQuery({
         queryKey: ['allMovies', page, searchQuery],
         queryFn: async () => {
@@ -35,12 +49,6 @@ const Movie = () => {
         },
         enabled: page > 0,
     });
-
-    // Handle fetching the watchlist data
-    // useEffect(() => {
-    //     const storedWatchlist = JSON.parse(localStorage.getItem('favoriteList')) || [];
-      
-    // }, []);
 
     useEffect(() => {
         if (data) {
@@ -61,7 +69,6 @@ const Movie = () => {
         console.log("Search Query:", searchValue);
     };
 
-    // Infinite scroll functionality
     useEffect(() => {
         const handleScroll = () => {
             if (
@@ -76,18 +83,19 @@ const Movie = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [isFetching, hasMore]);
 
-    
-
     return (
-        <div>
+        <div className="min-h-screen">
             <div className="max-w-lg mx-auto pt-8 flex items-center justify-between">
-       
+              
+             
+
+              
                 <form onSubmit={handleSearchSubmit} className="flex items-center space-x-4">
                     <input
                         type="text"
                         name="search"
                         placeholder="Search for movies..."
-                        className="w-full p-3 bg-gray-800 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        className="w-full p-3  bg-gray-800 text-white rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     />
                     <button
                         type="submit"
@@ -99,7 +107,6 @@ const Movie = () => {
 
                 {/* Watchlist Button */}
                 <Link href={'/watchlist'}
-           
                     className="ml-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300"
                 >
                     Watchlist
@@ -109,11 +116,8 @@ const Movie = () => {
             {/* Movie List */}
             <MovieList data={allMovies} />
             {isFetching && <p className="text-center text-yellow-500">Loading more movies...</p>}
-
-           
         </div>
     );
 };
 
 export default Movie;
-
