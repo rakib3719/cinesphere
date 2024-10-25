@@ -54,7 +54,7 @@ const Page = () => {
   );
 };
 
-// WatchlistMovie component for each movie
+
 const WatchlistMovie = ({ movieId, onRemove }) => {
   const { data: movie, isLoading } = useQuery({
     queryKey: ['movie', movieId],
